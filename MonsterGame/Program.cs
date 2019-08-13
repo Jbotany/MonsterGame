@@ -10,6 +10,7 @@ namespace MonsterGame
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
