@@ -8,5 +8,6 @@ namespace MonsterGame
 {
     class EasyMonster
     {
+        private readonly int award = 1;
     }
 }
