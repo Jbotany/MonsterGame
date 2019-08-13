@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MonsterGame
 {
-    class EasyMonster
+    class EasyMonster : Monster
     {
-        private readonly int award = 1;
+        // Reward when you defeat the monster.
+        public int Reward { get; } = 1;        
     }
 }

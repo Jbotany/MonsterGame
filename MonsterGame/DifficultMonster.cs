@@ -8,14 +8,16 @@ namespace MonsterGame
 {
     class DifficultMonster : Monster
     {
-        private readonly int award = 2;
+        // Reward when you defeat the monster.
+        public int Reward { get; } = 2;
 
-        public int MagicalcalDamages()
+        // Magical damages done by the monster when you loose the fight.
+        public int MagicalDamages()
         {
-            int dice = Dice.RollTheDice();
-            if (dice < 6)
+            int diceRes = dice.RollTheDice();
+            if (diceRes < 6)
             {
-                return 5 * dice;
+                return 5 * diceRes;
             }
             else
             {

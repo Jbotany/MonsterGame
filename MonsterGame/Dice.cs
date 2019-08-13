@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace MonsterGame
 {
-    public static class Dice
+    public class Dice
     {
-        public static int RollTheDice()
-        {
-            Random rand = new Random();
+        private Random random;
 
-            return rand.Next(1, 7);
+        // A new dice is instantiate in the constructor
+        public Dice()
+        {
+            random = new Random();
+        }
+
+        public int RollTheDice()
+        {
+            return random.Next(1, 7);
         }
     }
 }

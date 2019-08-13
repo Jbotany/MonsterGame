@@ -6,15 +6,37 @@ using System.Threading.Tasks;
 
 namespace MonsterGame
 {
-    abstract class Monster
+    class Monster
     {
-        private readonly int physicalDamages = 10;
+        // Physical damages done by the monster when is attack is a success.
+        public int PhysicalDamages { get; } = 10;
 
-        private readonly int award;
+        // Instantiate a new dice for the class. 
+        protected Dice dice;
 
-        public int Attack()
+        public Monster()
         {
-            return Dice.RollTheDice();
+            dice = new Dice();
+        }
+
+        // Attack of the monster.
+        public bool Attack(Player player)
+        {
+            bool win = false;
+            int diceRes = RollTheDice();
+
+            if (diceRes > player.RollTheDice())
+            {
+                win = true;
+            }
+
+            return win;
+        }
+
+        // Dice throw of the monster.
+        public int RollTheDice()
+        {
+            return dice.RollTheDice();
         }
     }
 }
