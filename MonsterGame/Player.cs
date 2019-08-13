@@ -45,10 +45,10 @@ namespace MonsterGame
             this.Life = 150;
         }
 
-        // The attacking method to kill monsters.
-        public void Attack(object monster)
+        // The attacking method to kill monsters. Throw a dice.
+        public int Attack(object monster)
         {
-            //do stuff
+            return Dice.RollTheDice();
         }
     }
 }

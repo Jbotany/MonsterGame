@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace MonsterGame
 {
-    class Dice
+    public static class Dice
     {
+        public static int RollTheDice()
+        {
+            Random rand = new Random();
+
+            return rand.Next(1, 7);
+        }
     }
 }
