@@ -10,6 +10,29 @@ namespace MonsterGame
     {
         static void Main(string[] args)
         {
+            DisplayMenu();
+            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
+            while (consoleKeyInfo.Key != ConsoleKey.D1 && consoleKeyInfo.Key != ConsoleKey.D2 && consoleKeyInfo.Key != ConsoleKey.NumPad1 && consoleKeyInfo.Key != ConsoleKey.NumPad2)
+            {
+                DisplayMenu();
+                consoleKeyInfo = Console.ReadKey(true);
+            }
+            if (consoleKeyInfo.Key == ConsoleKey.D1 || consoleKeyInfo.Key == ConsoleKey.NumPad1)
+                Game1();
+            else
+                Game2();
+        }
+
+        private static void DisplayMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Please, chose your game :");
+            Console.WriteLine("\t1 : Monster Fight Club");
+            Console.WriteLine("\t2 : Big Boss, Big Fight");
+        }
+
+        private static void Game1()
+        {
             // Instantiate a new Player.
             Player player = new Player();
 
@@ -19,12 +42,9 @@ namespace MonsterGame
             player.Name = input;
             Console.WriteLine($"Hi {player.Name}, your life is {player.Life} press a key to start the game !");
 
-            Random rand = new Random();
-            Dice dice = new Dice();
-
-            while (player.IsAlive == true)
+            while (player.IsAlive())
             {
-                int number = rand.Next(1, 3);
+                int number = Dice.RollTheDice(3);
                 int monsterDamages = 0;
                 int reward = 0;
                 int monsterMagicalDamages = 0;
@@ -49,19 +69,19 @@ namespace MonsterGame
                     monster = difficultMonster;
                     Console.WriteLine("You encounter a difficult monster");
                 }
-                                               
+
                 // Player attack
                 if (player.Attack(monster))
                 {
                     player.Points += reward;
                     if (monster is EasyMonster)
-                        player.EasyMonsterCounter++;                    
+                        player.EasyMonsterCounter++;
                     else
                         player.DifficultMonsterCounter++;
 
                     Console.WriteLine("You won the fight");
                 }
-                else 
+                else
                 {
                     if (monster.Attack(player))
                     {
@@ -77,12 +97,45 @@ namespace MonsterGame
                     }
                 }
             }
-            
 
-            Console.WriteLine("Game over");
+            YouLoose(player, "the monsters");
             Console.WriteLine($"You earned {player.Points} points. You killed {player.EasyMonsterCounter} easy monsters and {player.DifficultMonsterCounter} difficult monsters");
             Console.Read();
+        }
 
+        private static void Game2()
+        {
+            Player player = new Player();
+            Boss boss = new Boss(250);
+
+            Console.WriteLine("Welcome in the game: \"Big Boss, Big Fight\"");
+            Console.WriteLine("Enter your player name :");
+            string input = Console.ReadLine();
+            player.Name = input;
+            Console.WriteLine($"Hi {player.Name}, your life is {player.Life} and the Boss life is {boss.LifePoints} (life is unfair isn't it ?). Press a key to start the game!");
+
+            while (player.IsAlive() && boss.IsAlive())
+            {
+                // Player attack
+                player.Attack(boss);
+
+                if (boss.IsAlive())
+                {
+                    boss.Attack(player);
+                }
+            }
+
+            if (player.IsAlive())
+                Console.WriteLine("Nice job! You killed the Boss!");
+            else
+                YouLoose(player, "the boss");
+
+            Console.Read();
+        }
+
+        private static void YouLoose(Player player, string name)
+        {
+            Console.WriteLine("Game over! Sorry {0}, {1} got you...", player.Name, name);
         }
     }
 }

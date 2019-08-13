@@ -11,32 +11,23 @@ namespace MonsterGame
         // Physical damages done by the monster when is attack is a success.
         public int PhysicalDamages { get; } = 10;
 
-        // Instantiate a new dice for the class. 
-        protected Dice dice;
-
-        public Monster()
-        {
-            dice = new Dice();
-        }
-
         // Attack of the monster.
         public bool Attack(Player player)
         {
-            bool win = false;
-            int diceRes = RollTheDice();
+            int monsterDiceRes = RollTheDice();
 
-            if (diceRes > player.RollTheDice())
+            if (monsterDiceRes > player.RollTheDice())
             {
-                win = true;
+                return true;
             }
 
-            return win;
+            return false;
         }
 
         // Dice throw of the monster.
         public int RollTheDice()
         {
-            return dice.RollTheDice();
+            return Dice.RollTheDice();
         }
     }
 }

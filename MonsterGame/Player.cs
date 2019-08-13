@@ -8,12 +8,6 @@ namespace MonsterGame
 { 
     class Player
     {
-        // The player is alive at the start of the game.
-        private bool isAlive;
-
-        // Instantiate a new dice for the class. 
-        private Dice dice;
-
         // The number of easy monsters that have been killed.
         public int EasyMonsterCounter { get; set; } = 0;
 
@@ -30,46 +24,59 @@ namespace MonsterGame
         public int Points { get; set; }
 
         // If the life points are set to 0, the player dies.
-        public bool IsAlive
+        public bool IsAlive()
         {
-            get
-            {
-                return this.Life > 0;
-            }
+            return this.Life > 0;
         }
         
         // Contructor which set life points to 150.
         public Player()
         {
             this.Life = 150;
-            dice = new Dice();
         }
 
         // The attacking method to kill monsters. Throw a dice.
         public bool Attack(Monster monster)
         {
-            bool win = false;
-            int diceRes = RollTheDice();
+            int playerDiceRes = RollTheDice();
 
-            if (diceRes >= monster.RollTheDice())
+            if (playerDiceRes >= monster.RollTheDice())
             {
-                win = true;
+                return true;
             }
 
-            return win;
+            return false;
         }
 
-        // Dice throw of the player.
+        // The attacking method to kill boss. Throw a dice.
+        public void Attack(Boss boss)
+        {
+            int playerDiceRes = RollTheDice(26);
+            boss.SufferDamage(playerDiceRes);
+        }
+
+        // Dice throw by the player.
         public int RollTheDice()
         {
-            return dice.RollTheDice();
+            return Dice.RollTheDice();
         }
 
+        // Dice throw by the player with a different limit.
+        public int RollTheDice(int value)
+        {
+            return Dice.RollTheDice(value);
+        }
+
+        // If the restult is 1 or 2, the shield works.
         public bool ShieldWorks()
         {
             return RollTheDice() <= 2;
         }
 
+        public void SufferDamage(int damage)
+        {
+            this.Life -= damage;
+        }
 
     }
 }

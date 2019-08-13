@@ -14,7 +14,7 @@ namespace MonsterGame
         // Magical damages done by the monster when you loose the fight.
         public int MagicalDamages()
         {
-            int diceRes = dice.RollTheDice();
+            int diceRes = RollTheDice();
             if (diceRes < 6)
             {
                 return 5 * diceRes;
