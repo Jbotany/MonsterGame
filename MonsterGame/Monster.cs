@@ -6,28 +6,40 @@ using System.Threading.Tasks;
 
 namespace MonsterGame
 {
-    class Monster
+    class Monster : Character
     {
+        private bool isAlive;
+
+        // Reward when you defeat the monster.
+        public int Reward { get; set; }
+
         // Physical damages done by the monster when is attack is a success.
-        public int PhysicalDamages { get; } = 10;
-
-        // Attack of the monster.
-        public bool Attack(Player player)
+        public int AttackPoints { get; } = 10;
+        
+        // Constructor.
+        public Monster()
         {
-            int monsterDiceRes = RollTheDice();
-
-            if (monsterDiceRes > player.RollTheDice())
-            {
-                return true;
-            }
-
-            return false;
+            this.isAlive = true;
         }
 
-        // Dice throw of the monster.
-        public int RollTheDice()
+        // Check if the monster is Alive.
+        public override bool IsAlive()
         {
-            return Dice.RollTheDice();
+            return isAlive;
+        }
+
+        // Attack of the monster.
+        public override void Attack(Character enemy)
+        {
+            int CurrentCharacterDiceResult = RollTheDice();
+            if (CurrentCharacterDiceResult > enemy.RollTheDice())
+                enemy.SufferDamages(CurrentCharacterDiceResult);
+        }
+
+        // Kill the monster.
+        public override void SufferDamages(int damage)
+        {
+            this.isAlive = false;
         }
     }
 }

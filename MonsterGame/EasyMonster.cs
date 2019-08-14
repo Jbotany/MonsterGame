@@ -8,7 +8,9 @@ namespace MonsterGame
 {
     class EasyMonster : Monster
     {
-        // Reward when you defeat the monster.
-        public int Reward { get; } = 1;        
+        public EasyMonster()
+        {
+            this.Reward = 1;
+        }      
     }
 }

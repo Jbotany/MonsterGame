@@ -40,14 +40,12 @@ namespace MonsterGame
             Console.WriteLine("Enter your player name :");
             string input = Console.ReadLine();
             player.Name = input;
-            Console.WriteLine($"Hi {player.Name}, your life is {player.Life} press a key to start the game !");
+            Console.WriteLine($"Hi {player.Name}, your life is {player.LifePoints} press a key to start the game !");
 
             while (player.IsAlive())
             {
                 int number = Dice.RollTheDice(3);
-                int monsterDamages = 0;
                 int reward = 0;
-                int monsterMagicalDamages = 0;
 
                 Monster monster = null;
 
@@ -55,7 +53,6 @@ namespace MonsterGame
                 if (number == 1)
                 {
                     EasyMonster easyMonster = new EasyMonster();
-                    monsterDamages = easyMonster.PhysicalDamages;
                     reward = easyMonster.Reward;
                     monster = easyMonster;
                     Console.WriteLine("You encounter an easy monster");
@@ -63,43 +60,34 @@ namespace MonsterGame
                 else
                 {
                     DifficultMonster difficultMonster = new DifficultMonster();
-                    monsterDamages = difficultMonster.PhysicalDamages;
-                    monsterMagicalDamages = difficultMonster.MagicalDamages();
                     reward = difficultMonster.Reward;
                     monster = difficultMonster;
                     Console.WriteLine("You encounter a difficult monster");
                 }
 
-                // Player attack
-                if (player.Attack(monster))
+                while (monster.IsAlive() && player.IsAlive())
                 {
-                    player.Points += reward;
+                    player.Attack(monster);
+                    if (monster.IsAlive())
+                        monster.Attack(player);
+                }
+                
+                if (player.IsAlive())
+                {
+                    player.VictoryPoints += reward;
                     if (monster is EasyMonster)
                         player.EasyMonsterCounter++;
                     else
                         player.DifficultMonsterCounter++;
-
-                    Console.WriteLine("You won the fight");
                 }
                 else
                 {
-                    if (monster.Attack(player))
-                    {
-                        // If the shield is less than 2, the player does not receive any damage 
-                        if (player.ShieldWorks())
-                        {
-                            player.Life -= monsterDamages;
-                            player.Life -= monsterMagicalDamages;
-
-                            Console.WriteLine("You lost the fight");
-                            Console.WriteLine("Your current life is : " + player.Life);
-                        }
-                    }
+                    YouLoose(player, "the monsters");
+                    break;
                 }
             }
-
-            YouLoose(player, "the monsters");
-            Console.WriteLine($"You earned {player.Points} points. You killed {player.EasyMonsterCounter} easy monsters and {player.DifficultMonsterCounter} difficult monsters");
+                        
+            Console.WriteLine($"You earned {player.VictoryPoints} points. You killed {player.EasyMonsterCounter} easy monsters and {player.DifficultMonsterCounter} difficult monsters");
             Console.Read();
         }
 
@@ -112,7 +100,7 @@ namespace MonsterGame
             Console.WriteLine("Enter your player name :");
             string input = Console.ReadLine();
             player.Name = input;
-            Console.WriteLine($"Hi {player.Name}, your life is {player.Life} and the Boss life is {boss.LifePoints} (life is unfair isn't it ?). Press a key to start the game!");
+            Console.WriteLine($"Hi {player.Name}, your life is {player.LifePoints} and the Boss life is {boss.LifePoints} (life is unfair isn't it ?). Press a key to start the game!");
 
             while (player.IsAlive() && boss.IsAlive())
             {

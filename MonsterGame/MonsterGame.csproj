@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boss.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="DifficultMonster.cs" />
     <Compile Include="EasyMonster.cs" />
+    <Compile Include="LifePointsCharacters.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

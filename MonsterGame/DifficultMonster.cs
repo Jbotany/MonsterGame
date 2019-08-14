@@ -8,8 +8,19 @@ namespace MonsterGame
 {
     class DifficultMonster : Monster
     {
-        // Reward when you defeat the monster.
-        public int Reward { get; } = 2;
+        // Constructor.
+        public DifficultMonster()
+        {
+            this.Reward = 2;
+        }
+
+        // Attack of the monster.
+        public override void Attack(Character enemy)
+        {
+            int CurrentCharacterDiceResult = RollTheDice();
+            if (CurrentCharacterDiceResult > enemy.RollTheDice())
+                enemy.SufferDamages(CurrentCharacterDiceResult + MagicalDamages());
+        }
 
         // Magical damages done by the monster when you loose the fight.
         public int MagicalDamages()
